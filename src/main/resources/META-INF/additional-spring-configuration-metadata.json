@@ -1,0 +1,27 @@
+{"properties": [
+  {
+    "name": "practicejava.jwt.cookie-name",
+    "type": "java.lang.String",
+    "description": "Name of the cookie used to store the JWT access token."
+  },
+  {
+    "name": "practicejava.jwt.refresh-cookie-name",
+    "type": "java.lang.String",
+    "description": "Name of the cookie used to store the JWT refresh token."
+  },
+  {
+    "name": "practicejava.jwt.secret",
+    "type": "java.lang.String",
+    "description": "Secret key used to sign and verify JWT tokens."
+  },
+  {
+    "name": "practicejava.jwt.expiration-ms",
+    "type": "java.lang.Long",
+    "description": "Validity duration of the JWT access token, in milliseconds."
+  },
+  {
+    "name": "practicejava.jwt.refresh-expiration-ms",
+    "type": "java.lang.Long",
+    "description": "Validity duration of the JWT refresh token, in milliseconds."
+  }
+]}

@@ -1,0 +1,26 @@
+meta {
+  name: List Users
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/users
+  body: none
+  auth: basic
+}
+
+auth:basic {
+  username: {{username}}
+  password: {{password}}
+}
+
+headers {
+  Accept: application/json
+}
+
+docs {
+  List all users.
+
+  GET /api/users — requires the `user:read` authority.
+}

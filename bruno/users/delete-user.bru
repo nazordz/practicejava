@@ -1,0 +1,26 @@
+meta {
+  name: Delete User
+  type: http
+  seq: 6
+}
+
+delete {
+  url: {{baseUrl}}/api/users/{{userId}}
+  body: none
+  auth: basic
+}
+
+auth:basic {
+  username: {{username}}
+  password: {{password}}
+}
+
+headers {
+  Accept: application/json
+}
+
+docs {
+  Delete a user. Returns 204 No Content.
+
+  DELETE /api/users/{id} — requires the `user:delete` authority.
+}

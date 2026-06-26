@@ -1,0 +1,39 @@
+meta {
+  name: Update Book
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{baseUrl}}/api/books/{{bookId}}
+  body: json
+  auth: basic
+}
+
+auth:basic {
+  username: {{username}}
+  password: {{password}}
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "title": "The Pragmatic Programmer (20th Anniversary Edition)",
+    "author": "Andrew Hunt, David Thomas",
+    "genre": "Software",
+    "isbn": "978-0135957059",
+    "publishedYear": 2019,
+    "price": 44.99
+  }
+}
+
+docs {
+  Partial update of a book owned by the authenticated user — only non-null
+  fields are applied.
+
+  PUT /api/books/{id} — requires authentication and ownership of the row.
+}

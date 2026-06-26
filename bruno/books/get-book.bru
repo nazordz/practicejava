@@ -1,0 +1,26 @@
+meta {
+  name: Get Book by ID
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/books/{{bookId}}
+  body: none
+  auth: basic
+}
+
+auth:basic {
+  username: {{username}}
+  password: {{password}}
+}
+
+headers {
+  Accept: application/json
+}
+
+docs {
+  Retrieve a single book (id is a UUID) owned by the authenticated user.
+
+  GET /api/books/{id} — requires authentication and ownership of the row.
+}

@@ -1,0 +1,54 @@
+meta {
+  name: Create Book
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/books
+  body: json
+  auth: basic
+}
+
+auth:basic {
+  username: {{username}}
+  password: {{password}}
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "title": "The Pragmatic Programmer",
+    "author": "Andrew Hunt, David Thomas",
+    "genre": "Software",
+    "isbn": "978-0135957059",
+    "publishedYear": 2019,
+    "price": 39.99
+  }
+}
+
+script:post-response {
+  if (res.status === 201 && res.body && res.body.id) {
+    bru.setEnvVar("bookId", res.body.id);
+  }
+}
+
+docs {
+  Create a book owned by the authenticated user.
+
+  POST /api/books — requires authentication. Ownership is taken from the
+  principal; there is intentionally no userId field in the body. Returns 201
+  with a Location header (/api/books/{id}).
+
+  Body fields:
+  - title: required, max 255
+  - author: required, max 255
+  - genre: optional, max 128
+  - isbn: optional, max 32
+  - publishedYear: optional
+  - price: optional, >= 0
+}

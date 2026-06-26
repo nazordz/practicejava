@@ -1,0 +1,42 @@
+meta {
+  name: Update User
+  type: http
+  seq: 5
+}
+
+put {
+  url: {{baseUrl}}/api/users/{{userId}}
+  body: json
+  auth: basic
+}
+
+auth:basic {
+  username: {{username}}
+  password: {{password}}
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "fullName": "Updated Name",
+    "phoneNumber": "+15559876543",
+    "enabled": true,
+    "roles": ["ROLE_USER"]
+  }
+}
+
+docs {
+  Update an existing user.
+
+  PUT /api/users/{id} — requires the `user:write` authority.
+
+  Body fields (all optional):
+  - fullName
+  - phoneNumber
+  - enabled
+  - roles
+}

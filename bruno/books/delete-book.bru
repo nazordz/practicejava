@@ -1,0 +1,26 @@
+meta {
+  name: Delete Book
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{baseUrl}}/api/books/{{bookId}}
+  body: none
+  auth: basic
+}
+
+auth:basic {
+  username: {{username}}
+  password: {{password}}
+}
+
+headers {
+  Accept: application/json
+}
+
+docs {
+  Delete a book owned by the authenticated user. Returns 204 No Content.
+
+  DELETE /api/books/{id} — requires authentication and ownership of the row.
+}

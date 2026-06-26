@@ -1,0 +1,26 @@
+meta {
+  name: List Books
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/books
+  body: none
+  auth: basic
+}
+
+auth:basic {
+  username: {{username}}
+  password: {{password}}
+}
+
+headers {
+  Accept: application/json
+}
+
+docs {
+  List the authenticated user's own books.
+
+  GET /api/books — requires authentication. Results are scoped to the caller.
+}

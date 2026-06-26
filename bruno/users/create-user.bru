@@ -1,0 +1,51 @@
+meta {
+  name: Create User
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/api/users
+  body: json
+  auth: basic
+}
+
+auth:basic {
+  username: {{username}}
+  password: {{password}}
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "email": "new.user@example.com",
+    "password": "changeme123",
+    "fullName": "New User",
+    "phoneNumber": "+15551234567",
+    "roles": ["ROLE_USER"]
+  }
+}
+
+script:post-response {
+  if (res.status === 201 && res.body && res.body.id) {
+    bru.setEnvVar("userId", res.body.id);
+  }
+}
+
+docs {
+  Create a new user.
+
+  POST /api/users — requires the `user:write` authority. Returns 201 with a
+  Location header (/api/users/{id}).
+
+  Body fields:
+  - email: required, valid email
+  - password: required, 8-72 chars
+  - fullName: optional
+  - phoneNumber: optional
+  - roles: optional set of role names (e.g. ROLE_USER, ROLE_ADMIN)
+}

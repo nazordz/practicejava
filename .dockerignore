@@ -1,0 +1,53 @@
+# Build output
+build/
+bin/
+out/
+target/
+*.class
+*.jar
+*.war
+
+# Gradle
+.gradle/
+gradle-app.setting
+.kotlin/
+
+# Git / VCS
+.git/
+.gitignore
+.gitattributes
+.github/
+
+# IDE / editor
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+.settings/
+.project
+.classpath
+.factorypath
+*.swp
+*~
+
+# Docker
+Dockerfile
+.dockerignore
+compose.yml
+docker-compose*.yml
+
+# Docs & misc
+README.md
+HELP.md
+*.md
+LICENSE
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs & temp
+*.log
+tmp/
+temp/

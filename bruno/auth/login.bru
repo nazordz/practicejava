@@ -1,0 +1,50 @@
+meta {
+  name: Login
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/users/me
+  body: none
+  auth: basic
+}
+
+auth:basic {
+  username: {{username}}
+  password: {{password}}
+}
+
+headers {
+  Accept: application/json
+}
+
+script:post-response {
+  // This API uses stateless HTTP Basic auth — there is no token to store.
+  // A 200 confirms the username/password env vars are valid. We capture the
+  // authenticated user's id for convenience in other requests.
+  if (res.status === 200 && res.body && res.body.id) {
+    bru.setEnvVar("userId", res.body.id);
+  }
+}
+
+tests {
+  test("credentials are valid (200)", function() {
+    expect(res.status).to.equal(200);
+  });
+}
+
+docs {
+  Verify login credentials.
+
+  This service authenticates with stateless HTTP Basic auth (see SecurityConfig),
+  so there is no login endpoint that returns a token. Instead, this request sends
+  the {{username}} / {{password}} environment variables to GET /api/users/me.
+
+  A 200 response means the credentials are valid and returns the authenticated
+  user's profile. The user's id is saved to the userId environment variable.
+
+  Seed credentials (run app with the `seed` profile):
+  - admin@example.com / password  (ROLE_ADMIN)
+  - user@example.com  / password  (ROLE_USER)
+}

@@ -1,0 +1,47 @@
+# GraalVM native-image build (kept for reference / optional native builds).
+# Standard JDK/JRE build lives in ./docker/Dockerfile and the repo root Dockerfile.
+#
+# Build:  docker build -f docker/Dockerfile.native -t practicejava:native .
+
+# Build stage - GraalVM 25 Alpine
+FROM ghcr.io/graalvm/graalvm-ce:25-alpine AS build
+
+WORKDIR /build
+
+# Install required build tools for native (musl) compilation
+RUN apk add --no-cache \
+    build-base \
+    zlib-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy Maven wrapper and build files first (better layer caching)
+COPY mvnw ./
+COPY .mvn ./.mvn
+COPY pom.xml ./
+
+# Make wrapper executable and pre-download dependencies (cached unless pom.xml changes)
+RUN chmod +x ./mvnw \
+    && ./mvnw dependency:go-offline -B -Pnative
+
+# Copy sources and build the native image (skip tests in the image build)
+COPY src ./src
+RUN ./mvnw -Pnative native:compile -B -DskipTests
+
+# Runtime stage - Alpine (pinned version)
+FROM alpine:3.21
+
+WORKDIR /app
+
+# Install runtime dependencies
+RUN apk add --no-cache \
+    ca-certificates \
+    libstdc++
+
+# Copy native executable from build stage (imageName defaults to artifactId)
+COPY --from=build /build/target/practicejava ./app
+
+# Expose port
+EXPOSE 8080
+
+# Run the application
+ENTRYPOINT ["./app"]
