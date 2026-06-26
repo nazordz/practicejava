@@ -1,0 +1,32 @@
+meta {
+  name: Refresh Token
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/auth/refreshtoken
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: application/json
+}
+
+tests {
+  test("token refreshed (200)", function() {
+    expect(res.status).to.equal(200);
+  });
+}
+
+docs {
+  Exchange the refresh token for a fresh access token.
+
+  POST /api/auth/refreshtoken — reads the practicejava-refresh-jwt cookie (sent
+  automatically by Bruno) and, if the token is present, not expired, and not
+  revoked, issues a new practicejava-jwt access-token cookie.
+
+  Returns 403 if the refresh token is missing, unknown, expired, or has been
+  revoked (e.g. after Sign Out), in which case the user must sign in again.
+}

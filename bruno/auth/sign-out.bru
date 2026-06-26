@@ -1,0 +1,32 @@
+meta {
+  name: Sign Out
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/auth/signout
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: application/json
+}
+
+tests {
+  test("signed out (200)", function() {
+    expect(res.status).to.equal(200);
+  });
+}
+
+docs {
+  Sign out and revoke refresh tokens.
+
+  POST /api/auth/signout — revokes every active refresh token for the
+  authenticated user (marking them revoked = true in the refresh_tokens table)
+  and clears the JWT cookies.
+
+  After signing out, calling Refresh Token returns 403 because the persisted
+  refresh token is now revoked. This is the server-side revocation in action.
+}

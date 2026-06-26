@@ -3,3 +3,5 @@ databaseChangeLog:
       file: db/changelog/001-create-users.sql
   - include:
       file: db/changelog/002-create-books.sql
+  - include:
+      file: db/changelog/003-create-refresh-tokens.sql

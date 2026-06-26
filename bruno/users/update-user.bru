@@ -7,12 +7,7 @@ meta {
 put {
   url: {{baseUrl}}/api/users/{{userId}}
   body: json
-  auth: basic
-}
-
-auth:basic {
-  username: {{username}}
-  password: {{password}}
+  auth: none
 }
 
 headers {

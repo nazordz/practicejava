@@ -1,0 +1,17 @@
+# Example JWT configuration.
+#
+# The real application.yml is gitignored (secrets policy), so copy this file to
+# src/main/resources/application.yml — or supply the values as environment
+# variables — and replace the secret with your own. Generate one with:
+#
+#   openssl rand -base64 64
+#
+# All values below are also the built-in defaults (see JwtProperties), so the
+# app boots without this file; you only need it to override the secret/timeouts.
+practicejava:
+  jwt:
+    secret: ${PRACTICEJAVA_JWT_SECRET:replace-me-with-a-base64-encoded-256-bit-or-larger-secret}
+    cookie-name: practicejava-jwt
+    refresh-cookie-name: practicejava-refresh-jwt
+    expiration-ms: 3600000        # access token: 1 hour
+    refresh-expiration-ms: 86400000  # refresh token: 24 hours
