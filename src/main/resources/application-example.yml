@@ -6,8 +6,40 @@
 #
 #   openssl rand -base64 64
 #
-# All values below are also the built-in defaults (see JwtProperties), so the
-# app boots without this file; you only need it to override the secret/timeouts.
+# JwtProperties no longer carries built-in defaults, so the practicejava.jwt
+# values below (or the equivalent environment variables) are required for the
+# app to start.
+spring:
+  application:
+    name: practicejava
+  # PostgreSQL Database Configuration
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+  # JPA/Hibernate Configuration
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      # Schema is owned by Liquibase; Hibernate must not mutate it.
+      ddl-auto: none
+    show-sql: false
+    properties:
+      hibernate:
+        '[format_sql]': true
+  threads:
+    virtual:
+      enabled: true
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+  cache:
+    type: redis
+  data:
+    redis:
+      url: redis://localhost:6379
+
 practicejava:
   jwt:
     secret: ${PRACTICEJAVA_JWT_SECRET:replace-me-with-a-base64-encoded-256-bit-or-larger-secret}
@@ -15,3 +47,14 @@ practicejava:
     refresh-cookie-name: practicejava-refresh-jwt
     expiration-ms: 3600000        # access token: 1 hour
     refresh-expiration-ms: 86400000  # refresh token: 24 hours
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: when-authorized

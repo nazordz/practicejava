@@ -2,7 +2,10 @@ package com.nazor.practicejava.security;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.annotation.Validated;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,28 +15,32 @@ import lombok.Setter;
  */
 @Component
 @ConfigurationProperties(prefix = "practicejava.jwt")
+@Validated
 @Getter
 @Setter
 public class JwtProperties {
 
     /**
      * Base64-encoded secret used to sign and verify access tokens (HMAC-SHA).
-     * The default lets the app boot for local development; override it in real
-     * deployments via {@code PRACTICEJAVA_JWT_SECRET} (or an untracked
-     * {@code application.yml}). See {@code application-example.yml}.
+     * Supply it via {@code PRACTICEJAVA_JWT_SECRET} or an untracked
+     * {@code application.yml}. See {@code application-example.yml}.
      */
-    private String secret =
-            "rtibpSh/hDZIYu8/6vyI2fvHL6+MkfuVf/KKaDguoqQhCAkgvWqdd7OmEBT2vIUaeEffPEydJPYef1R54gvYPQ==";
+    @NotBlank
+    private String secret;
 
     /** Cookie that carries the short-lived JWT access token. */
-    private String cookieName = "practicejava-jwt";
+    @NotBlank
+    private String cookieName;
 
     /** Cookie that carries the long-lived opaque refresh token. */
-    private String refreshCookieName = "practicejava-refresh-jwt";
+    @NotBlank
+    private String refreshCookieName;
 
-    /** Access token validity, in milliseconds (default 1 hour). */
-    private long expirationMs = 3_600_000L;
+    /** Access token validity, in milliseconds. */
+    @Positive
+    private long expirationMs;
 
-    /** Refresh token validity, in milliseconds (default 24 hours). */
-    private long refreshExpirationMs = 86_400_000L;
+    /** Refresh token validity, in milliseconds. */
+    @Positive
+    private long refreshExpirationMs;
 }
